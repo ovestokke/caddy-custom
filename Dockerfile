@@ -21,6 +21,7 @@ RUN xcaddy build \
 #    --with github.com/mholt/caddy-webdav \
 #    --with github.com/abiosoft/caddy-json-parse \    
 #    --with github.com/porech/caddy-maxmind-geolocation \
+    --with github.com/greenpau/caddy-security \
     --with github.com/gsmlg-dev/caddy-admin-ui@main \
     --with github.com/WeidiDeng/caddy-cloudflare-ip \
     --with github.com/mholt/caddy-l4 \
