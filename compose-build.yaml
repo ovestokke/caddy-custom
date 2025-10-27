@@ -1,0 +1,28 @@
+services:
+  caddy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: caddy
+    hostname: caddy
+    restart: unless-stopped
+    networks:
+      - proxy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+      - "2019:2019"  # Admin UI port
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${APPDATA_ROOT}/${SERVICE_NAME}/data:/data
+      - ${APPDATA_ROOT}/${SERVICE_NAME}/config:/etc/caddy
+    environment:
+      TZ: ${TZ:-UTC}
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+      CADDY_INGRESS_NETWORKS: proxy
+
+networks:
+  proxy:
+    name: proxy
+    driver: bridge
