@@ -37,7 +37,7 @@ The following plugins are available but currently commented out:
 
 ## Quick Start
 
-### Using Docker Compose
+### Using Docker Compose (Recommended)
 
 1. **Set up environment variables:**
    Create a `.env` file or set the following environment variables:
@@ -48,18 +48,24 @@ The following plugins are available but currently commented out:
    CLOUDFLARE_API_TOKEN=your_cloudflare_token
    ```
 
-2. **Build and run:**
+2. **Run with pre-built image:**
+   ```bash
+   docker compose up -d
+   ```
+
+### Building from Source
+
+If you want to build the image locally:
+
+1. **Build and run:**
    ```bash
    docker compose -f compose-build.yaml up -d
    ```
 
-### Using Docker Build
+### Using Docker Run
 
 ```bash
-# Build the image
-docker build -t caddy-custom .
-
-# Run the container
+# Run with pre-built image
 docker run -d \
   --name caddy \
   -p 80:80 \
@@ -69,7 +75,7 @@ docker run -d \
   -v caddy_data:/data \
   -v caddy_config:/etc/caddy \
   -e CLOUDFLARE_API_TOKEN=your_token \
-  caddy-custom
+  ghcr.io/ovestokke/caddy-custom:latest
 ```
 
 ## Configuration
@@ -110,7 +116,21 @@ The compose file creates a `proxy` network for container communication. Ensure y
 
 ## Building from Source
 
-If you want to modify the included plugins:
+If you want to modify the included plugins or build locally:
+
+### Local Build Options
+
+1. **Build and run with Docker Compose:**
+   ```bash
+   docker compose -f compose-build.yaml up -d
+   ```
+
+2. **Build manually:**
+   ```bash
+   docker build -t caddy-custom .
+   ```
+
+### Customizing Plugins
 
 1. Edit the `Dockerfile` to add/remove plugins
 2. Uncomment any plugins you want to enable
@@ -118,6 +138,19 @@ If you want to modify the included plugins:
    ```bash
    docker build -t caddy-custom .
    ```
+
+## Pre-built Images
+
+Pre-built images are automatically published to GitHub Container Registry:
+- **Latest:** `ghcr.io/ovestokke/caddy-custom:latest`
+- **Tagged versions:** `ghcr.io/ovestokke/caddy-custom:v1.0.0`
+- **Branch builds:** `ghcr.io/ovestokke/caddy-custom:main`
+- **PR builds:** `ghcr.io/ovestokke/caddy-custom:pr-123`
+
+Images are built automatically on:
+- Pushes to `main` branch
+- Tagged releases (e.g., `v1.0.0`)
+- Pull requests (for testing)
 
 ## Version Information
 
